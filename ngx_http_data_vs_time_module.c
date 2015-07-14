@@ -12,34 +12,36 @@
 
 #define MAX_N_VALUES 10000
 
+typedef struct functionObject_t {
+  void *data;
+  double (*fn)(struct functionObject_t* d, int64_t t);
+} functionObject_t;
+
+static double pingValueCreator(functionObject_t* fo, int64_t t)
+{
+  return 0.0;
+}
+
+static double sinValueCreator(functionObject_t* fo, int64_t t)
+{
+  double period_seconds = *((double *)(fo->data));
+  return sin((double)t/1000.0*M_2_PI/period_seconds);
+}
+
 static ngx_str_t handle_values(ngx_http_request_t *r)
 {
   ngx_str_t result_body;
-  char* args;
-  char* arg;
-  char* vname;
-  char* vvalue;
-
   char tmp_str[32];
-  char* series;
-  int64_t start;
-  int64_t stop;
-  int step;
 
-  double period_seconds;
-  double d;
-  int64_t current;
-  int n;
-
-  series = NULL;
-  start = -1;
-  stop = -1;
-  step = -1;
+  char* series = NULL;
+  int64_t start = -1;
+  int64_t stop = -1;
+  int step = -1;
 
   result_body.data = NULL;
   result_body.len = 0;
 
-  args = ngx_palloc(r->pool, r->args.len + 1);
+  char* args = ngx_palloc(r->pool, r->args.len + 1);
   if (!args) {
     return result_body;
   }
@@ -48,10 +50,10 @@ static ngx_str_t handle_values(ngx_http_request_t *r)
 
   while (args != NULL)
   {
-     arg = strsep(&args, "&");
+     char* arg = strsep(&args, "&");
 
-     vname = strsep(&arg, "=");
-     vvalue = arg;
+     char* vname = strsep(&arg, "=");
+     char* vvalue = arg;
 
      if (strncmp(vname, "start", sizeof("start") - 1) == 0)
      {
@@ -80,7 +82,7 @@ static ngx_str_t handle_values(ngx_http_request_t *r)
     return result_body;
   }
 
-  n = (int)(stop - start) / step;
+  int n = (int)(stop - start) / step;
   if (n < 1 || n > MAX_N_VALUES)
   {
     return result_body;
@@ -90,14 +92,17 @@ static ngx_str_t handle_values(ngx_http_request_t *r)
   {
     return result_body;
   }
-
   series = series + 3;
 
-  period_seconds = atoi(series);
+  double period_seconds = (double)atoi(series);
+  functionObject_t fo;
+  fo.data = &period_seconds;
+  fo.fn = &sinValueCreator;
 
   result_body.data = ngx_palloc(r->pool, 10 * n + 20); // oodles.
   strcpy(result_body.data, "[");
 
+  int64_t current;
   for (current = start; current<stop; current += step)
   {
     if (current != start)
@@ -105,7 +110,8 @@ static ngx_str_t handle_values(ngx_http_request_t *r)
       strcat(result_body.data, ",");
     }
 
-    d = sin( (double)current/1000.0 * M_2_PI / period_seconds );
+    double d = fo.fn(&fo, current);
+    // double d = sin( (double)current/1000.0 * M_2_PI / period_seconds );
     snprintf(tmp_str, sizeof(tmp_str), "%.4f", d);
     strcat(result_body.data, tmp_str);
   }
