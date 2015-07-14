@@ -44,9 +44,6 @@ static double rsValueCreator(functionObject_t* fo, int64_t t)
 
 static double mixValueCreator(functionObject_t* fo, int64_t t)
 {
-  double period_seconds = 100.0;
-  double period_seconds_2 = 802.0;
-  double p3 =
   return
     10.0 +
     sin((double)t/1000.0*M_2_PI/100.0) +
