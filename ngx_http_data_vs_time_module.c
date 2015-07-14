@@ -7,9 +7,6 @@
 #include <ngx_core.h>
 #include <ngx_http.h>
 
-#include "handler_series.h"
-#include "handler_values.h"
-
 #define MAX_N_VALUES 10000
 
 typedef struct functionObject_t {
@@ -19,7 +16,10 @@ typedef struct functionObject_t {
 
 static double pingValueCreator(functionObject_t* fo, int64_t t)
 {
-  return 0.0;
+  srand((unsigned int)t);
+  double x = ((double)rand()/(double)RAND_MAX);
+  double delta = *((double *)(fo->data));
+  return x * (1 + delta / 10) + delta;
 }
 
 static double sinValueCreator(functionObject_t* fo, int64_t t)
@@ -65,7 +65,7 @@ static ngx_str_t handle_values(ngx_http_request_t *r)
      }
      else if (strncmp(vname, "step", sizeof("step") - 1) == 0)
      {
-       step = atoi(vvalue);
+       step = strtol(vvalue, (char **)NULL, 10);
      }
      else if (strncmp(vname, "series", sizeof("series") - 1) == 0)
      {
@@ -88,18 +88,27 @@ static ngx_str_t handle_values(ngx_http_request_t *r)
     return result_body;
   }
 
-  if (strncmp(series, "SIN", sizeof("SIN")-1) != 0)
+  functionObject_t fo;
+  if (strncmp(series, "SIN", sizeof("SIN")-1) == 0)
+  {
+    series = series + 3;
+    double period_seconds = (double)strtol(series, (char **)NULL, 10);
+    fo.data = &period_seconds;
+    fo.fn = &sinValueCreator;
+  }
+  else if (strncmp(series, "ping", sizeof("ping")-1) == 0)
+  {
+    series = series + 4;
+    double d = (double)strtol(series, (char **)NULL, 10);
+    fo.data = &d;
+    fo.fn = &pingValueCreator;
+  }
+  else
   {
     return result_body;
   }
-  series = series + 3;
 
-  double period_seconds = (double)atoi(series);
-  functionObject_t fo;
-  fo.data = &period_seconds;
-  fo.fn = &sinValueCreator;
-
-  result_body.data = ngx_palloc(r->pool, 10 * n + 20); // oodles.
+  result_body.data = ngx_palloc(r->pool, 10 * n + 20); // oodles of room.
   strcpy(result_body.data, "[");
 
   int64_t current;
@@ -111,20 +120,27 @@ static ngx_str_t handle_values(ngx_http_request_t *r)
     }
 
     double d = fo.fn(&fo, current);
-    // double d = sin( (double)current/1000.0 * M_2_PI / period_seconds );
     snprintf(tmp_str, sizeof(tmp_str), "%.4f", d);
     strcat(result_body.data, tmp_str);
   }
 
   strcat(result_body.data, "]");
 
-  //result_body.data = ngx_palloc(r->pool, 1024);
-  //sprintf(result_body.data, "s:%s:%d:%d:%d:\n", series, start, stop, step);
   result_body.len = strlen(result_body.data);
 
   return result_body;
 }
 
+static ngx_str_t handle_series(ngx_http_request_t *r)
+{
+  ngx_str_t result_body;
+
+  result_body.data = ngx_pcalloc(r->pool, 256);
+  strcpy(result_body.data, "[\"SIN4\",\"SIN9\",\"SIN17\",\"SIN36\",\"SIN95\",\"SIN113\",\"SIN198\",\"ping4\",\"ping27\"]");
+  result_body.len = strlen(result_body.data);
+
+  return result_body;
+}
 
 static char *ngx_http_data_vs_time(ngx_conf_t *cf, ngx_command_t *cmd, void *conf);
 
