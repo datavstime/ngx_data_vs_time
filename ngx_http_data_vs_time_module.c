@@ -42,6 +42,20 @@ static double rsValueCreator(functionObject_t* fo, int64_t t)
   return sin((double)t/1000.0*M_2_PI/period_seconds) + rnd * 0.1 - 0.05;
 }
 
+static double mixValueCreator(functionObject_t* fo, int64_t t)
+{
+  double period_seconds = 100.0;
+  double period_seconds_2 = 802.0;
+  double p3 =
+  return
+    10.0 +
+    sin((double)t/1000.0*M_2_PI/100.0) +
+    sin((double)t/1000.0*M_2_PI/802.0)*2.0 +
+    sin((double)t/1000.0*M_2_PI/7)*0.02 +
+    sin((double)t/1000.0*M_2_PI/9)*0.05;
+}
+
+
 static ngx_str_t values_handler(ngx_http_request_t *r)
 {
   ngx_str_t result_body;
@@ -124,6 +138,13 @@ static ngx_str_t values_handler(ngx_http_request_t *r)
     fo.data = &period_seconds;
     fo.fn = &rsValueCreator;
   }
+  else if (strncmp(series, "mix", sizeof("mix")-1) == 0)
+  {
+    series = series + 3;
+    int num = (int)strtol(series, (char **)NULL, 10);
+    fo.data = &num;
+    fo.fn = &mixValueCreator;
+  }
   else
   {
     return result_body;
@@ -157,7 +178,7 @@ static ngx_str_t series_handler(ngx_http_request_t *r)
   ngx_str_t result_body;
 
   result_body.data = ngx_pcalloc(r->pool, 2048);
-  strcpy(result_body.data, "[\"SIN4\",\"SIN9\",\"SIN17\",\"SIN36\",\"SIN95\",\"SIN113\",\"SIN198\",\"ping4\",\"ping27\",\"ping120\",\"ping130\",\"ping180\",\"ping220\",\"ping320\",\"ping500\",\"rs5\",\"rs7\",\"rs10\",\"rs25\",\"rs42\",\"rs67\",\"rs133\",\"rs145\",\"rs168\",\"rs220\",\"rs265\",\"rs310\",\"rs340\",\"rs387\",\"rs412\",\"rs444\",\"rs502\",\"rs550\",\"rs599\",\"rs680\",\"rs850\"]");
+  strcpy(result_body.data, "[\"SIN4\",\"SIN9\",\"SIN17\",\"SIN36\",\"SIN95\",\"SIN113\",\"SIN198\",\"ping4\",\"ping27\",\"ping120\",\"ping130\",\"ping180\",\"ping220\",\"ping320\",\"ping500\",\"rs5\",\"rs7\",\"rs10\",\"rs25\",\"rs42\",\"rs67\",\"rs133\",\"rs145\",\"rs168\",\"rs220\",\"rs265\",\"rs310\",\"rs340\",\"rs387\",\"rs412\",\"rs444\",\"rs502\",\"rs550\",\"rs599\",\"rs680\",\"rs850\",\"mix1\"]");
   result_body.len = strlen(result_body.data);
 
   return result_body;
