@@ -16,7 +16,7 @@ typedef struct functionObject_t {
 
 static double pingValueCreator(functionObject_t* fo, int64_t t)
 {
-  srand((unsigned int)t);
+  srand((unsigned int)(t/80000));
   double x = ((double)rand()/(double)RAND_MAX);
   double delta = *((double *)(fo->data));
   return x * (1 + delta / 10) + delta;
@@ -28,7 +28,7 @@ static double sinValueCreator(functionObject_t* fo, int64_t t)
   return sin((double)t/1000.0*M_2_PI/period_seconds);
 }
 
-static ngx_str_t handle_values(ngx_http_request_t *r)
+static ngx_str_t values_handler(ngx_http_request_t *r)
 {
   ngx_str_t result_body;
   char tmp_str[32];
@@ -131,7 +131,7 @@ static ngx_str_t handle_values(ngx_http_request_t *r)
   return result_body;
 }
 
-static ngx_str_t handle_series(ngx_http_request_t *r)
+static ngx_str_t series_handler(ngx_http_request_t *r)
 {
   ngx_str_t result_body;
 
@@ -192,11 +192,11 @@ static ngx_int_t ngx_http_data_vs_time_handler(ngx_http_request_t *r)
 
   if (strncmp(r->uri.data, "/api/v1/series", sizeof("/api/v1/series")-1) == 0)
   {
-    result_body = handle_series(r);
+    result_body = series_handler(r);
   }
   else if (strncmp(r->uri.data, "/api/v1/values", sizeof("/api/v1/values")-1) == 0)
   {
-    result_body = handle_values(r);
+    result_body = values_handler(r);
   }
   else
   {
