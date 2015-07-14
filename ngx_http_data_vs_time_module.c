@@ -17,9 +17,15 @@ typedef struct functionObject_t {
 static double pingValueCreator(functionObject_t* fo, int64_t t)
 {
   srand((unsigned int)(t/80000));
-  double x = ((double)rand()/(double)RAND_MAX);
-  double delta = *((double *)(fo->data));
-  return x * (1 + delta / 10) + delta;
+  double rnd = ((double)rand()/(double)RAND_MAX);
+  double lvl = *((double *)(fo->data));
+  if (rnd < 0.95) {
+    return rnd * (1 + lvl / 10) + lvl;
+  }
+  if (rnd < 0.98) {
+    return (rnd - 0.95) * 20.0 * 200 + 1000;
+  }
+  return 5000;
 }
 
 static double sinValueCreator(functionObject_t* fo, int64_t t)
@@ -136,7 +142,7 @@ static ngx_str_t series_handler(ngx_http_request_t *r)
   ngx_str_t result_body;
 
   result_body.data = ngx_pcalloc(r->pool, 256);
-  strcpy(result_body.data, "[\"SIN4\",\"SIN9\",\"SIN17\",\"SIN36\",\"SIN95\",\"SIN113\",\"SIN198\",\"ping4\",\"ping27\"]");
+  strcpy(result_body.data, "[\"SIN4\",\"SIN9\",\"SIN17\",\"SIN36\",\"SIN95\",\"SIN113\",\"SIN198\",\"ping4\",\"ping27\",\"ping120\",\"ping130\",\"ping180\",\"ping220\",\"ping320\",\"ping500\"]");
   result_body.len = strlen(result_body.data);
 
   return result_body;
