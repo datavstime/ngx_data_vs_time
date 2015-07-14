@@ -17,7 +17,7 @@ typedef struct functionObject_t {
 static double pingValueCreator(functionObject_t* fo, int64_t t)
 {
   double lvl = *((double *)(fo->data));
-  srand((unsigned int)(t/80000 + (int)lvl));
+  srand((unsigned int)(t/30000 + (int)lvl));
   double rnd = ((double)rand()/(double)RAND_MAX);
   if (rnd < 0.95) {
     return rnd * (1 + lvl / 10) + lvl;
