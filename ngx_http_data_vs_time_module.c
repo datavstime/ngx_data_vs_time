@@ -117,7 +117,7 @@ static ngx_str_t values_handler(ngx_http_request_t *r)
     fo.data = &d;
     fo.fn = &pingValueCreator;
   }
-  if (strncmp(series, "rs", sizeof("rs")-1) == 0)
+  else if (strncmp(series, "rs", sizeof("rs")-1) == 0)
   {
     series = series + 2;
     double period_seconds = (double)strtol(series, (char **)NULL, 10);
