@@ -1,4 +1,7 @@
+#include <stdint.h>
+#include <stdlib.h>
 #include <string.h>
+#include <math.h>
 #include <nginx.h>
 #include <ngx_config.h>
 #include <ngx_core.h>
@@ -6,6 +9,115 @@
 
 #include "handler_series.h"
 #include "handler_values.h"
+
+#define MAX_N_VALUES 10000
+
+static ngx_str_t handle_values(ngx_http_request_t *r)
+{
+  ngx_str_t result_body;
+  char* args;
+  char* arg;
+  char* vname;
+  char* vvalue;
+
+  char tmp_str[32];
+  char* series;
+  int64_t start;
+  int64_t stop;
+  int step;
+
+  double period_seconds;
+  double d;
+  int64_t current;
+  int n;
+
+  series = NULL;
+  start = -1;
+  stop = -1;
+  step = -1;
+
+  result_body.data = NULL;
+  result_body.len = 0;
+
+  args = ngx_palloc(r->pool, r->args.len + 1);
+  if (!args) {
+    return result_body;
+  }
+  strncpy(args, r->args.data, r->args.len);
+  args[r->args.len] = '\0';
+
+  while (args != NULL)
+  {
+     arg = strsep(&args, "&");
+
+     vname = strsep(&arg, "=");
+     vvalue = arg;
+
+     if (strncmp(vname, "start", sizeof("start") - 1) == 0)
+     {
+       start = strtoull(vvalue, (char **)NULL, 10);
+     }
+     else if (strncmp(vname, "stop", sizeof("stop") - 1) == 0)
+     {
+       stop = strtoull(vvalue, (char **)NULL, 10);
+     }
+     else if (strncmp(vname, "step", sizeof("step") - 1) == 0)
+     {
+       step = atoi(vvalue);
+     }
+     else if (strncmp(vname, "series", sizeof("series") - 1) == 0)
+     {
+       series = vvalue;
+     }
+     else
+     {
+       return result_body;
+     }
+  }
+
+  if (series == NULL || start < 0 || stop < 0 || step <= 0)
+  {
+    return result_body;
+  }
+
+  n = (int)(stop - start) / step;
+  if (n < 1 || n > MAX_N_VALUES)
+  {
+    return result_body;
+  }
+
+  if (strncmp(series, "SIN", sizeof("SIN")-1) != 0)
+  {
+    return result_body;
+  }
+
+  series = series + 3;
+
+  period_seconds = atoi(series);
+
+  result_body.data = ngx_palloc(r->pool, 10 * n + 20); // oodles.
+  strcpy(result_body.data, "[");
+
+  for (current = start; current<stop; current += step)
+  {
+    if (current != start)
+    {
+      strcat(result_body.data, ",");
+    }
+
+    d = sin( (double)current/1000.0 * M_2_PI / period_seconds );
+    snprintf(tmp_str, sizeof(tmp_str), "%.4f", d);
+    strcat(result_body.data, tmp_str);
+  }
+
+  strcat(result_body.data, "]");
+
+  //result_body.data = ngx_palloc(r->pool, 1024);
+  //sprintf(result_body.data, "s:%s:%d:%d:%d:\n", series, start, stop, step);
+  result_body.len = strlen(result_body.data);
+
+  return result_body;
+}
 
 
 static char *ngx_http_data_vs_time(ngx_conf_t *cf, ngx_command_t *cmd, void *conf);
@@ -67,6 +179,11 @@ static ngx_int_t ngx_http_data_vs_time_handler(ngx_http_request_t *r)
   else
   {
     return NGX_DECLINED;
+  }
+
+  if (result_body.len == 0)
+  {
+    return NGX_HTTP_INTERNAL_SERVER_ERROR;
   }
 
   r->headers_out.content_type.len = sizeof("application/json; charset=utf-8") - 1;
