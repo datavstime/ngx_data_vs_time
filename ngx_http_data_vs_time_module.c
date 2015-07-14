@@ -23,7 +23,7 @@ static double pingValueCreator(functionObject_t* fo, int64_t t)
     return rnd * (1 + lvl / 10) + lvl;
   }
   if (rnd < 0.98) {
-    return (rnd - 0.95) * 20.0 * 200 + 1000;
+    return (rnd - 0.95) * 20.0 * 200 + 800;
   }
   return 5000;
 }
