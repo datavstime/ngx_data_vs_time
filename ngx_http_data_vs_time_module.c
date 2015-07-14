@@ -39,7 +39,7 @@ static double rsValueCreator(functionObject_t* fo, int64_t t)
   double period_seconds = *((double *)(fo->data));
   srand((unsigned int)(t + (int)period_seconds));
   double rnd = ((double)rand()/(double)RAND_MAX);
-  return sin((double)t/1000.0*M_2_PI/period_seconds) + rnd / 0.1 - 0.05;
+  return sin((double)t/1000.0*M_2_PI/period_seconds) + rnd * 0.1 - 0.05;
 }
 
 static ngx_str_t values_handler(ngx_http_request_t *r)
@@ -157,7 +157,7 @@ static ngx_str_t series_handler(ngx_http_request_t *r)
   ngx_str_t result_body;
 
   result_body.data = ngx_pcalloc(r->pool, 256);
-  strcpy(result_body.data, "[\"SIN4\",\"SIN9\",\"SIN17\",\"SIN36\",\"SIN95\",\"SIN113\",\"SIN198\",\"ping4\",\"ping27\",\"ping120\",\"ping130\",\"ping180\",\"ping220\",\"ping320\",\"ping500\",\"rs10\",\"rs25\",\"rs42\",\"rs67\",\"rs133\",\"rs145\",\"rs168\",\"rs220\",\"rs265\",\"rs310\"]");
+  strcpy(result_body.data, "[\"SIN4\",\"SIN9\",\"SIN17\",\"SIN36\",\"SIN95\",\"SIN113\",\"SIN198\",\"ping4\",\"ping27\",\"ping120\",\"ping130\",\"ping180\",\"ping220\",\"ping320\",\"ping500\",\"rs5\",\"rs7\",\"rs10\",\"rs25\",\"rs42\",\"rs67\",\"rs133\",\"rs145\",\"rs168\",\"rs220\",\"rs265\",\"rs310\",\"rs340\",\"rs387\",\"rs412\",\"rs444\",\"rs502\",\"rs550\",\"rs599\",\"rs680\",\"rs850\"]");
   result_body.len = strlen(result_body.data);
 
   return result_body;
