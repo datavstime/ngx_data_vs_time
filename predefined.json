@@ -94,5 +94,181 @@
       "Height": 3
     }
   ]
+},
+{
+  "Name": "Random Waves",
+  "Skip": "10m",
+  "DurationType": "Pixel Size",
+  "Duration": "1s",
+  "Series": [
+    {
+      "Name": "rs5",
+      "NegPalette": 4,
+      "PosPalette": 1,
+      "ReferenceType": "Absolute",
+      "ReferenceValue": 0,
+      "NumberFormat": ".4r",
+      "Range": "Auto",
+      "Levels": 3,
+      "Height": 6
+    },
+    {
+      "Name": "rs850",
+      "NegPalette": 2,
+      "PosPalette": 3,
+      "ReferenceType": "Absolute",
+      "ReferenceValue": 0,
+      "NumberFormat": ".4r",
+      "Range": "Auto",
+      "Levels": 3,
+      "Height": 5
+    },
+    {
+      "Name": "rs599",
+      "NegPalette": 2,
+      "PosPalette": 3,
+      "ReferenceType": "Absolute",
+      "ReferenceValue": 0,
+      "NumberFormat": ".4r",
+      "Range": "Auto",
+      "Levels": 3,
+      "Height": 1
+    },
+    {
+      "Name": "rs444",
+      "NegPalette": 2,
+      "PosPalette": 3,
+      "ReferenceType": "Absolute",
+      "ReferenceValue": 0,
+      "NumberFormat": ".4r",
+      "Range": "Auto",
+      "Levels": 3,
+      "Height": 1
+    },
+    {
+      "Name": "rs412",
+      "NegPalette": 2,
+      "PosPalette": 3,
+      "ReferenceType": "Absolute",
+      "ReferenceValue": 0,
+      "NumberFormat": ".4r",
+      "Range": "Auto",
+      "Levels": 3,
+      "Height": 1
+    },
+    {
+      "Name": "rs502",
+      "NegPalette": 2,
+      "PosPalette": 3,
+      "ReferenceType": "Absolute",
+      "ReferenceValue": 0,
+      "NumberFormat": ".4r",
+      "Range": "Auto",
+      "Levels": 3,
+      "Height": 1
+    },
+    {
+      "Name": "rs599",
+      "NegPalette": 2,
+      "PosPalette": 3,
+      "ReferenceType": "Absolute",
+      "ReferenceValue": 0,
+      "NumberFormat": ".4r",
+      "Range": "Auto",
+      "Levels": 3,
+      "Height": 1
+    },
+    {
+      "Name": "rs680",
+      "NegPalette": 2,
+      "PosPalette": 3,
+      "ReferenceType": "Absolute",
+      "ReferenceValue": 0,
+      "NumberFormat": ".4r",
+      "Range": "Auto",
+      "Levels": 3,
+      "Height": 1
+    },
+    {
+      "Name": "rs412",
+      "NegPalette": 2,
+      "PosPalette": 3,
+      "ReferenceType": "Absolute",
+      "ReferenceValue": 0,
+      "NumberFormat": ".4r",
+      "Range": "Auto",
+      "Levels": 3,
+      "Height": 1
+    },
+    {
+      "Name": "rs310",
+      "NegPalette": 2,
+      "PosPalette": 3,
+      "ReferenceType": "Absolute",
+      "ReferenceValue": 0,
+      "NumberFormat": ".4r",
+      "Range": "Auto",
+      "Levels": 3,
+      "Height": 1
+    },
+    {
+      "Name": "rs168",
+      "NegPalette": 2,
+      "PosPalette": 3,
+      "ReferenceType": "Absolute",
+      "ReferenceValue": 0,
+      "NumberFormat": ".4r",
+      "Range": "Auto",
+      "Levels": 3,
+      "Height": 1
+    },
+    {
+      "Name": "rs25",
+      "NegPalette": 2,
+      "PosPalette": 3,
+      "ReferenceType": "Absolute",
+      "ReferenceValue": 0,
+      "NumberFormat": ".4r",
+      "Range": "Auto",
+      "Levels": 3,
+      "Height": 1
+    },
+    {
+      "Name": "rs42",
+      "NegPalette": 2,
+      "PosPalette": 3,
+      "ReferenceType": "Absolute",
+      "ReferenceValue": 0,
+      "NumberFormat": ".4r",
+      "Range": "Auto",
+      "Levels": 3,
+      "Height": 1
+    },
+    {
+      "Name": "rs7",
+      "NegPalette": 2,
+      "PosPalette": 3,
+      "ReferenceType": "Absolute",
+      "ReferenceValue": 0,
+      "NumberFormat": ".4r",
+      "Range": "Auto",
+      "Levels": 3,
+      "Height": 1
+    }
+  ]
+},
+{
+  "Name": "Weightometers",
+  "Skip": "10m",
+  "DurationType": "Pixel Size",
+  "Duration": "1s",
+  "Series": []
+},
+{
+  "Name": "Sine Waves",
+  "Skip": "10m",
+  "DurationType": "Pixel Size",
+  "Duration": "1s",
+  "Series": []
 }
 ]
