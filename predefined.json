@@ -1,100 +1,101 @@
 [
   {
-  "Name": "Ping Demo",
-  "Skip": "10m",
-  "DurationType": "Pixel Size",
-  "Duration": "1s",
-  "Series": [
-    {
-      "Name": "ping500",
-      "NegPalette": 2,
-      "PosPalette": 2,
-      "ReferenceType": "Absolute",
-      "ReferenceValue": 0,
-      "NumberFormat": ".3r",
-      "Range": "800",
-      "Levels": 3,
-      "Height": 3
-    },
-    {
-      "Name": "ping320",
-      "NegPalette": 2,
-      "PosPalette": 3,
-      "ReferenceType": "Absolute",
-      "ReferenceValue": 0,
-      "NumberFormat": ".3r",
-      "Range": "800",
-      "Levels": 3,
-      "Height": 3
-    },
-    {
-      "Name": "ping220",
-      "NegPalette": 2,
-      "PosPalette": 0,
-      "ReferenceType": "Absolute",
-      "ReferenceValue": 0,
-      "NumberFormat": ".3r",
-      "Range": "800",
-      "Levels": 3,
-      "Height": 3
-    },
-    {
-      "Name": "ping180",
-      "NegPalette": 2,
-      "PosPalette": 4,
-      "ReferenceType": "Absolute",
-      "ReferenceValue": 0,
-      "NumberFormat": ".3r",
-      "Range": "800",
-      "Levels": 3,
-      "Height": 3
-    },
-    {
-      "Name": "ping130",
-      "NegPalette": 2,
-      "PosPalette": 1,
-      "ReferenceType": "Absolute",
-      "ReferenceValue": 0,
-      "NumberFormat": ".3r",
-      "Range": "800",
-      "Levels": 3,
-      "Height": 3
-    },
-    {
-      "Name": "ping120",
-      "NegPalette": 2,
-      "PosPalette": 3,
-      "ReferenceType": "Absolute",
-      "ReferenceValue": 0,
-      "NumberFormat": ".3r",
-      "Range": "800",
-      "Levels": 3,
-      "Height": 3
-    },
-    {
-      "Name": "ping27",
-      "NegPalette": 2,
-      "PosPalette": 4,
-      "ReferenceType": "Absolute",
-      "ReferenceValue": 0,
-      "NumberFormat": ".3r",
-      "Range": "800",
-      "Levels": 3,
-      "Height": 3
-    },
-    {
-      "Name": "ping4",
-      "NegPalette": 2,
-      "PosPalette": 0,
-      "ReferenceType": "Absolute",
-      "ReferenceValue": 0,
-      "NumberFormat": ".3r",
-      "Range": "800",
-      "Levels": 3,
-      "Height": 3
-    }
-  ]
-},
+    "Name": "Ping Times",
+    "Skip": "10m",
+    "DurationType": "Pixel Size",
+    "Duration": "1s",
+    "Series": [
+      {
+        "Name": "ping120",
+        "NegPalette": 2,
+        "PosPalette": 2,
+        "ReferenceType": "Absolute",
+        "ReferenceValue": 0,
+        "NumberFormat": ".3r",
+        "Range": "800",
+        "Levels": 2,
+        "Height": 3
+      },
+      {
+        "Name": "ping500",
+        "NegPalette": 2,
+        "PosPalette": 2,
+        "ReferenceType": "Absolute",
+        "ReferenceValue": 0,
+        "NumberFormat": ".3r",
+        "Range": "800",
+        "Levels": 2,
+        "Height": 3
+      },
+      {
+        "Name": "ping320",
+        "NegPalette": 2,
+        "PosPalette": 2,
+        "ReferenceType": "Absolute",
+        "ReferenceValue": 0,
+        "NumberFormat": ".3r",
+        "Range": "800",
+        "Levels": 2,
+        "Height": 3
+      },
+      {
+        "Name": "ping4",
+        "NegPalette": 2,
+        "PosPalette": 2,
+        "ReferenceType": "Absolute",
+        "ReferenceValue": 0,
+        "NumberFormat": ".3r",
+        "Range": "800",
+        "Levels": 2,
+        "Height": 3
+      },
+      {
+        "Name": "ping220",
+        "NegPalette": 2,
+        "PosPalette": 2,
+        "ReferenceType": "Absolute",
+        "ReferenceValue": 0,
+        "NumberFormat": ".3r",
+        "Range": "800",
+        "Levels": 2,
+        "Height": 3
+      },
+      {
+        "Name": "ping180",
+        "NegPalette": 2,
+        "PosPalette": 2,
+        "ReferenceType": "Absolute",
+        "ReferenceValue": 0,
+        "NumberFormat": ".3r",
+        "Range": "800",
+        "Levels": 2,
+        "Height": 3
+      },
+      {
+        "Name": "ping130",
+        "NegPalette": 2,
+        "PosPalette": 2,
+        "ReferenceType": "Absolute",
+        "ReferenceValue": 0,
+        "NumberFormat": ".3r",
+        "Range": "800",
+        "Levels": 2,
+        "Height": 3
+      },
+      {
+        "Name": "ping27",
+        "NegPalette": 2,
+        "PosPalette": 2,
+        "ReferenceType": "Absolute",
+        "ReferenceValue": 0,
+        "NumberFormat": ".3r",
+        "Range": "800",
+        "Levels": 2,
+        "Height": 3
+      }
+    ]
+  },
+
 {
   "Name": "Random Waves",
   "Skip": "10m",
