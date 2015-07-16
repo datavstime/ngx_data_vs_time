@@ -9,7 +9,11 @@
 
 #define MAX_N_VALUES 10000
 
-typedef struct functionObject_t {
+// really fast and good enough for current purposes.
+#define randomint(seed) ((seed)*2654435761)
+
+typedef struct functionObject_t
+{
   void *data;
   double (*fn)(struct functionObject_t* d, int64_t t);
 } functionObject_t;
@@ -52,6 +56,11 @@ static double mixValueCreator(functionObject_t* fo, int64_t t)
     sin((double)t/1000.0*M_2_PI/9)*0.05;
 }
 
+static double wtValueCreator(functionObject_t* fo, int64_t t)
+{
+  int multiplier = ((int *)fo->data)[0];
+  return ((double)randomint((int)t) / (double)INT_MAX) * multiplier;
+}
 
 static ngx_str_t values_handler(ngx_http_request_t *r)
 {
@@ -142,6 +151,23 @@ static ngx_str_t values_handler(ngx_http_request_t *r)
     fo.data = &num;
     fo.fn = &mixValueCreator;
   }
+  else if (strncmp(series, "wt", sizeof("wt")-1) == 0)
+  {
+    series = series + 2;
+
+    char* period = strsep(&series, "-");
+    char* rate = series;
+
+    int p = (int)strtol(period, (char **)NULL, 10);
+    int r = (int)strtol(rate, (char **)NULL, 10);
+
+    int* args = (int *)ngx_palloc(r->pool, sizeof(int) * 2);
+    args[0] = p;
+    args[1] = r;
+
+    fo.data = args;
+    fo.fn = &wtValueCreator;
+  }
   else
   {
     return result_body;
@@ -175,7 +201,7 @@ static ngx_str_t series_handler(ngx_http_request_t *r)
   ngx_str_t result_body;
 
   result_body.data = ngx_pcalloc(r->pool, 2048);
-  strcpy(result_body.data, "[\"SIN4\",\"SIN9\",\"SIN17\",\"SIN36\",\"SIN95\",\"SIN113\",\"SIN198\",\"ping4\",\"ping27\",\"ping120\",\"ping130\",\"ping180\",\"ping220\",\"ping320\",\"ping500\",\"rs5\",\"rs7\",\"rs10\",\"rs25\",\"rs42\",\"rs67\",\"rs133\",\"rs145\",\"rs168\",\"rs220\",\"rs265\",\"rs310\",\"rs340\",\"rs387\",\"rs412\",\"rs444\",\"rs502\",\"rs550\",\"rs599\",\"rs680\",\"rs850\",\"mix1\"]");
+  strcpy(result_body.data, "[\"SIN4\",\"SIN9\",\"SIN17\",\"SIN36\",\"SIN95\",\"SIN113\",\"SIN198\",\"ping4\",\"ping27\",\"ping120\",\"ping130\",\"ping180\",\"ping220\",\"ping320\",\"ping500\",\"rs5\",\"rs7\",\"rs10\",\"rs25\",\"rs42\",\"rs67\",\"rs133\",\"rs145\",\"rs168\",\"rs220\",\"rs265\",\"rs310\",\"rs340\",\"rs387\",\"rs412\",\"rs444\",\"rs502\",\"rs550\",\"rs599\",\"rs680\",\"rs850\",\"mix1\",\"wt300_4\",\"wt100_2\",\"wt237_7\"]");
   result_body.len = strlen(result_body.data);
 
   return result_body;
