@@ -16,7 +16,8 @@ typedef struct functionObject_t
 } functionObject_t;
 
 
-// START Murmur3
+// The murmur3 32bit hash function by Austin Appleby which we use as a
+// really fast pseudo random number generator.
 
 #define FORCE_INLINE __attribute__((always_inline))
 
@@ -42,8 +43,7 @@ inline uint32_t rotl32 ( uint32_t x, int8_t r )
 }
 #define ROTL32(x,y)     rotl32(x,y)
 
-void MurmurHash3_x86_32 ( const void * key, int len,
-                          uint32_t seed, void * out )
+uint32_t MurmurHash3_x86_32 ( const void * key, int len, uint32_t seed )
 {
   const uint8_t * data = (const uint8_t*)key;
   const int nblocks = len / 4;
@@ -52,9 +52,6 @@ void MurmurHash3_x86_32 ( const void * key, int len,
 
   uint32_t c1 = 0xcc9e2d51;
   uint32_t c2 = 0x1b873593;
-
-  //----------
-  // body
 
   const uint32_t * blocks = (const uint32_t *)(data + nblocks*4);
 
@@ -72,9 +69,6 @@ void MurmurHash3_x86_32 ( const void * key, int len,
     h1 = h1*5+0xe6546b64;
   }
 
-  //----------
-  // tail
-
   const uint8_t * tail = (const uint8_t*)(data + nblocks*4);
 
   uint32_t k1 = 0;
@@ -87,14 +81,12 @@ void MurmurHash3_x86_32 ( const void * key, int len,
           k1 *= c1; k1 = ROTL32(k1,15); k1 *= c2; h1 ^= k1;
   };
 
-  //----------
-  // finalization
-
   h1 ^= len;
 
   h1 = fmix(h1);
 
-  *(uint32_t*)out = h1;
+  //*(uint32_t*)out = h1;
+  return h1;
 }
 
 // --- END Murmur3
@@ -142,10 +134,7 @@ static double wtValueCreator(functionObject_t* fo, int64_t t)
 {
   uint32_t multiplier = ((uint32_t *)(fo->data))[0];
 
-  uint32_t out;
-  MurmurHash3_x86_32 ( &t, sizeof(int64_t), 0, &out);
-
-  return ((double)out / (double)UINT_MAX) * multiplier;
+  return ((double)MurmurHash3_x86_32(&t,sizeof(int64_t),0) / (double)UINT_MAX) * multiplier;
 }
 
 static ngx_str_t values_handler(ngx_http_request_t *r)
