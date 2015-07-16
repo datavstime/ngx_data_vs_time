@@ -58,8 +58,9 @@ static double mixValueCreator(functionObject_t* fo, int64_t t)
 
 static double wtValueCreator(functionObject_t* fo, int64_t t)
 {
-  int multiplier = ((int *)fo->data)[0];
-  return ((double)randomint((int)t) / (double)INT_MAX) * multiplier;
+  //int multiplier = ((int *)(fo->data))[0];
+  //return ((double)randomint((int)t) / (double)INT_MAX) * multiplier;
+  return 80.5;
 }
 
 static ngx_str_t values_handler(ngx_http_request_t *r)
@@ -161,11 +162,11 @@ static ngx_str_t values_handler(ngx_http_request_t *r)
     int p_ = (int)strtol(period, (char **)NULL, 10);
     int r_ = (int)strtol(rate, (char **)NULL, 10);
 
-    int* args = (int *)ngx_palloc(r->pool, sizeof(int) * 2);
-    args[0] = p_;
-    args[1] = r_;
+    int* ars = (int *)ngx_palloc(r->pool, sizeof(int) * 2);
+    ars[0] = p_;
+    ars[1] = r_;
 
-    fo.data = args;
+    fo.data = ars;
     fo.fn = &wtValueCreator;
   }
   else
