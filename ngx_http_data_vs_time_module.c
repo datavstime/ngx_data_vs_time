@@ -85,8 +85,12 @@ uint32_t MurmurHash3_x86_32 ( const void * key, int len, uint32_t seed )
 
   h1 = fmix(h1);
 
-  //*(uint32_t*)out = h1;
   return h1;
+}
+
+FORCE_INLINE double uniform_rand_01(int64_t t)
+{
+  return ((double)MurmurHash3_x86_32(&t,sizeof(int64_t),0) / (double)UINT_MAX);
 }
 
 // --- END Murmur3
@@ -95,8 +99,7 @@ uint32_t MurmurHash3_x86_32 ( const void * key, int len, uint32_t seed )
 static double pingValueCreator(functionObject_t* fo, int64_t t)
 {
   double lvl = *((double *)(fo->data));
-  srand((unsigned int)(t/15000 + (int)lvl));
-  double rnd = ((double)rand()/(double)RAND_MAX);
+  double rnd = uniform_rand_01(t/15000 + (int)lvl);
   if (rnd < 0.95) {
     return rnd * (1 + lvl / 10) + lvl;
   }
@@ -115,8 +118,7 @@ static double sinValueCreator(functionObject_t* fo, int64_t t)
 static double rsValueCreator(functionObject_t* fo, int64_t t)
 {
   double period_seconds = *((double *)(fo->data));
-  srand((unsigned int)(t + (int)period_seconds));
-  double rnd = ((double)rand()/(double)RAND_MAX);
+  double rnd = uniform_rand_01(t + (int)period_seconds);
   return sin((double)t/1000.0*M_2_PI/period_seconds) + rnd * 0.1 - 0.05;
 }
 
@@ -133,8 +135,7 @@ static double mixValueCreator(functionObject_t* fo, int64_t t)
 static double wtValueCreator(functionObject_t* fo, int64_t t)
 {
   uint32_t multiplier = ((uint32_t *)(fo->data))[0];
-
-  return ((double)MurmurHash3_x86_32(&t,sizeof(int64_t),0) / (double)UINT_MAX) * multiplier;
+  return uniform_rand_01(t) * multiplier;
 }
 
 static ngx_str_t values_handler(ngx_http_request_t *r)
