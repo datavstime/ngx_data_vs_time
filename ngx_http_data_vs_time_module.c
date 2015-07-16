@@ -118,8 +118,9 @@ static double sinValueCreator(functionObject_t* fo, int64_t t)
 static double rsValueCreator(functionObject_t* fo, int64_t t)
 {
   double period_seconds = *((double *)(fo->data));
+  double rlvl = 1.0 / (period_seconds * period_seconds * 2);
   double rnd = uniform_rand_01(t + (int)period_seconds);
-  return sin((double)t/1000.0*M_2_PI/period_seconds) + rnd * 0.1 - 0.05;
+  return sin((double)t/1000.0*M_2_PI/period_seconds) + rnd * rlvl - rlvl/2.0;
 }
 
 static double mixValueCreator(functionObject_t* fo, int64_t t)
