@@ -58,9 +58,9 @@ static double mixValueCreator(functionObject_t* fo, int64_t t)
 
 static double wtValueCreator(functionObject_t* fo, int64_t t)
 {
-  //int multiplier = ((int *)(fo->data))[0];
-  //return ((double)randomint((int)t) / (double)INT_MAX) * multiplier;
-  return 80.5;
+  int multiplier = ((int *)(fo->data))[0];
+  return ((double)randomint((int)t) / (double)INT_MAX) * multiplier;
+  //return 80.5;
 }
 
 static ngx_str_t values_handler(ngx_http_request_t *r)
@@ -156,7 +156,7 @@ static ngx_str_t values_handler(ngx_http_request_t *r)
   {
     series = series + 2;
 
-    char* period = strsep(&series, "-");
+    char* period = strsep(&series, "_");
     char* rate = series;
 
     int p_ = (int)strtol(period, (char **)NULL, 10);
