@@ -158,12 +158,12 @@ static ngx_str_t values_handler(ngx_http_request_t *r)
     char* period = strsep(&series, "-");
     char* rate = series;
 
-    int p = (int)strtol(period, (char **)NULL, 10);
-    int r = (int)strtol(rate, (char **)NULL, 10);
+    int p_ = (int)strtol(period, (char **)NULL, 10);
+    int r_ = (int)strtol(rate, (char **)NULL, 10);
 
     int* args = (int *)ngx_palloc(r->pool, sizeof(int) * 2);
-    args[0] = p;
-    args[1] = r;
+    args[0] = p_;
+    args[1] = r_;
 
     fo.data = args;
     fo.fn = &wtValueCreator;
