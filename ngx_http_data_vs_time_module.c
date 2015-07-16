@@ -9,14 +9,17 @@
 
 #define MAX_N_VALUES 10000
 
-// really fast and good enough for current purposes.
-#define randomint(seed) ((seed)*2654435761)
-
 typedef struct functionObject_t
 {
   void *data;
   double (*fn)(struct functionObject_t* d, int64_t t);
 } functionObject_t;
+
+// really fast and good enough for current purposes.
+static uint32_t randomint(uint32_t seed)
+{
+  return seed * (uint32_t)2654435761;
+}
 
 static double pingValueCreator(functionObject_t* fo, int64_t t)
 {
