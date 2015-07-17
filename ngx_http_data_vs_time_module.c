@@ -149,7 +149,7 @@ static double wtValueCreator(functionObject_t* fo, int64_t t, int step)
     double v2 = (1 + uniform_rand_01(t-step) * 0.04);
     double v3 = (1 + uniform_rand_01(t-2*step) * 0.04);
     double v4 = (1 + uniform_rand_01(t-3*step) * 0.04);
-    return (v1+v2+v3+v4) * level;
+    return (v1+v2+v3+v4) * level / 4;
   }
 
   if (t > p1_a && t < p1) {
