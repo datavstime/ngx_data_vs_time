@@ -12,11 +12,11 @@
 typedef struct functionObject_t
 {
   void *data;
-  double (*fn)(struct functionObject_t* d, int64_t t);
+  double (*fn)(struct functionObject_t* d, int64_t t, int step);
 } functionObject_t;
 
 
-// The murmur3 32bit hash function by Austin Appleby which we use as a
+// The murmur3 32bit hash function by Austin Appleby which is used as a
 // really fast pseudo random number generator.
 
 #define FORCE_INLINE __attribute__((always_inline))
@@ -96,7 +96,7 @@ FORCE_INLINE double uniform_rand_01(int64_t t)
 // --- END Murmur3
 
 
-static double pingValueCreator(functionObject_t* fo, int64_t t)
+static double pingValueCreator(functionObject_t* fo, int64_t t, int step)
 {
   double lvl = *((double *)(fo->data));
   double rnd = uniform_rand_01(t/15000 + (int)lvl);
@@ -109,20 +109,20 @@ static double pingValueCreator(functionObject_t* fo, int64_t t)
   return 5000;
 }
 
-static double sinValueCreator(functionObject_t* fo, int64_t t)
+static double sinValueCreator(functionObject_t* fo, int64_t t, int step)
 {
   double period_seconds = *((double *)(fo->data));
   return sin((double)t/1000.0*M_2_PI/period_seconds);
 }
 
-static double rsValueCreator(functionObject_t* fo, int64_t t)
+static double rsValueCreator(functionObject_t* fo, int64_t t, int step)
 {
   double period_seconds = *((double *)(fo->data));
   double rnd = uniform_rand_01(t + (int)period_seconds);
   return sin((double)t/1000.0*M_2_PI/period_seconds) + rnd * 0.1 - 0.05;
 }
 
-static double mixValueCreator(functionObject_t* fo, int64_t t)
+static double mixValueCreator(functionObject_t* fo, int64_t t, int step)
 {
   return
     10.0 +
@@ -132,8 +132,7 @@ static double mixValueCreator(functionObject_t* fo, int64_t t)
     sin((double)t/1000.0*M_2_PI/9)*0.05;
 }
 
-
-static double wtValueCreator(functionObject_t* fo, int64_t t)
+static double wtValueCreator(functionObject_t* fo, int64_t t, int step)
 {
   uint32_t level = ((uint32_t *)(fo->data))[0];
   uint32_t period_10m = ((uint32_t *)(fo->data))[1] * 60 * 10 * 1000;
@@ -145,7 +144,12 @@ static double wtValueCreator(functionObject_t* fo, int64_t t)
   int64_t p2_b = p2 + 1000*20;
 
   if (t >= p1 && t <= p2) {
-    return uniform_rand_01(t) * level * 0.05 + level;
+    // implement a bit of (resolution dependent!) smoothing to make it look better.
+    double v1 = (1 + uniform_rand_01(t) * 0.01);
+    double v2 = (1 + uniform_rand_01(t-step) * 0.01);
+    double v3 = (1 + uniform_rand_01(t-2*step) * 0.01);
+    double v4 = (1 + uniform_rand_01(t-3*step) * 0.01);
+    return (v1+v2+v3+v4) * level;
   }
 
   if (t > p1_a && t < p1) {
@@ -153,7 +157,7 @@ static double wtValueCreator(functionObject_t* fo, int64_t t)
   }
 
   if (t > p2 && t < p2_b) {
-    return (double)(t - p2) / (double)(p2_b - p2) * level;
+    return (double)(p2_b - t) / (double)(p2_b - p2) * level;
   }
 
   return 0.0;
@@ -282,7 +286,7 @@ static ngx_str_t values_handler(ngx_http_request_t *r)
       strcat(result_body.data, ",");
     }
 
-    double d = fo.fn(&fo, current);
+    double d = fo.fn(&fo, current, step);
     snprintf(tmp_str, sizeof(tmp_str), "%.4f", d);
     strcat(result_body.data, tmp_str);
   }
