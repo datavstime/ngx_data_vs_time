@@ -133,24 +133,32 @@ static double mixValueCreator(functionObject_t* fo, int64_t t)
 }
 
 
-// specify period width in seconds.
-// specify t/s
-//
-
 static double wtValueCreator(functionObject_t* fo, int64_t t)
 {
-  uint32_t multiplier = ((uint32_t *)(fo->data))[0];
+  uint32_t level = ((uint32_t *)(fo->data))[0];
   uint32_t period_10m = ((uint32_t *)(fo->data))[1] * 60 * 10 * 1000;
 
   int64_t p1 = (int64_t) ((uniform_rand_01(t/(int64_t)period_10m) / 2.0) * period_10m + (t/(int64_t)period_10m)*period_10m);
-  int64_t p2 = (int64_t) ((uniform_rand_01(t/(int64_t)period_10m+1) / 2.0 + 0.5) * period_10m + (t/(int64_t)period_10m)*period_10m);
+  int64_t p1_a = p1 - 1000*20;
 
-  if (t > p1 && t < p2) {
-    return uniform_rand_01(t) * multiplier;
+  int64_t p2 = (int64_t) ((uniform_rand_01(t/(int64_t)period_10m+1) / 2.0 + 0.5) * period_10m + (t/(int64_t)period_10m)*period_10m);
+  int64_t p2_b = p2 + 1000*20;
+
+  if (t >= p1 && t <= p2) {
+    return uniform_rand_01(t) * level * 0.05 + level;
+  }
+
+  if (t > p1_a && t < p1) {
+    return (double)(t - p1_a) / (double)(p1 - p1_a) * level;
+  }
+
+  if (t > p2 && t < p2_b) {
+    return (double)(t - p2) / (double)(p2_b - p2) * level;
   }
 
   return 0.0;
 }
+
 
 static ngx_str_t values_handler(ngx_http_request_t *r)
 {
