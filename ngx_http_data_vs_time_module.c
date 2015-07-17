@@ -142,8 +142,8 @@ static double wtValueCreator(functionObject_t* fo, int64_t t)
   uint32_t multiplier = ((uint32_t *)(fo->data))[0];
   uint32_t period_10m = ((uint32_t *)(fo->data))[1] * 60 * 10;
 
-  var p1 = (int64_t) ((uniform_rand_01(t/(int64_t)period_10m) / 2.0) * period_10m + (t/(int64_t)period_10m)*period_10m);
-  var p2 = (int64_t) ((uniform_rand_01(t/(int64_t)period_10m+1) / 2.0 + 0.5) * period_10m + (t/(int64_t)period_10m)*period_10m);
+  int64_t p1 = (int64_t) ((uniform_rand_01(t/(int64_t)period_10m) / 2.0) * period_10m + (t/(int64_t)period_10m)*period_10m);
+  int64_t p2 = (int64_t) ((uniform_rand_01(t/(int64_t)period_10m+1) / 2.0 + 0.5) * period_10m + (t/(int64_t)period_10m)*period_10m);
 
   if (t > p1 && t < p2) {
     return uniform_rand_01(t) * multiplier;
