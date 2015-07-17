@@ -118,9 +118,8 @@ static double sinValueCreator(functionObject_t* fo, int64_t t)
 static double rsValueCreator(functionObject_t* fo, int64_t t)
 {
   double period_seconds = *((double *)(fo->data));
-  double rlvl = 1.0 / (sqrt(period_seconds) * 5.0);
   double rnd = uniform_rand_01(t + (int)period_seconds);
-  return sin((double)t/1000.0*M_2_PI/period_seconds) + rnd * rlvl - rlvl/2.0;
+  return sin((double)t/1000.0*M_2_PI/period_seconds) + rnd * 0.1 - 0.05;
 }
 
 static double mixValueCreator(functionObject_t* fo, int64_t t)
@@ -133,10 +132,24 @@ static double mixValueCreator(functionObject_t* fo, int64_t t)
     sin((double)t/1000.0*M_2_PI/9)*0.05;
 }
 
+
+// specify period width in seconds.
+// specify t/s
+//
+
 static double wtValueCreator(functionObject_t* fo, int64_t t)
 {
   uint32_t multiplier = ((uint32_t *)(fo->data))[0];
-  return uniform_rand_01(t) * multiplier;
+  uint32_t period_10m = ((uint32_t *)(fo->data))[1] * 60 * 10;
+
+  var p1 = (int64_t) ((uniform_rand_01(t/(int64_t)period_10m) / 2.0) * period_10m + (t/(int64_t)period_10m)*period_10m);
+  var p2 = (int64_t) ((uniform_rand_01(t/(int64_t)period_10m+1) / 2.0 + 0.5) * period_10m + (t/(int64_t)period_10m)*period_10m);
+
+  if (t > p1 && t < p2) {
+    return uniform_rand_01(t) * multiplier;
+  }
+
+  return 0.0;
 }
 
 static ngx_str_t values_handler(ngx_http_request_t *r)
@@ -278,7 +291,7 @@ static ngx_str_t series_handler(ngx_http_request_t *r)
   ngx_str_t result_body;
 
   result_body.data = ngx_pcalloc(r->pool, 2048);
-  strcpy(result_body.data, "[\"SIN4\",\"SIN9\",\"SIN17\",\"SIN36\",\"SIN95\",\"SIN113\",\"SIN198\",\"ping4\",\"ping27\",\"ping120\",\"ping130\",\"ping180\",\"ping220\",\"ping320\",\"ping500\",\"rs5\",\"rs7\",\"rs10\",\"rs25\",\"rs42\",\"rs67\",\"rs133\",\"rs145\",\"rs168\",\"rs220\",\"rs265\",\"rs310\",\"rs340\",\"rs387\",\"rs412\",\"rs444\",\"rs502\",\"rs550\",\"rs599\",\"rs680\",\"rs850\",\"mix1\",\"wt300_4\",\"wt100_2\",\"wt237_7\"]");
+  strcpy(result_body.data, "[\"SIN4\",\"SIN9\",\"SIN17\",\"SIN36\",\"SIN95\",\"SIN113\",\"SIN198\",\"ping4\",\"ping27\",\"ping120\",\"ping130\",\"ping180\",\"ping220\",\"ping320\",\"ping500\",\"rs5\",\"rs7\",\"rs10\",\"rs25\",\"rs42\",\"rs67\",\"rs133\",\"rs145\",\"rs168\",\"rs220\",\"rs265\",\"rs310\",\"rs340\",\"rs387\",\"rs412\",\"rs444\",\"rs502\",\"rs550\",\"rs599\",\"rs680\",\"rs850\",\"mix1\",\"wt300_4\",\"wt100_10\",\"wt237_7\"]");
   result_body.len = strlen(result_body.data);
 
   return result_body;
