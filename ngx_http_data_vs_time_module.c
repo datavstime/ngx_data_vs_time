@@ -145,10 +145,10 @@ static double wtValueCreator(functionObject_t* fo, int64_t t, int step)
 
   if (t >= p1 && t <= p2) {
     // implement a bit of (resolution dependent!) smoothing to make it look better.
-    double v1 = (1 + uniform_rand_01(t) * 0.01);
-    double v2 = (1 + uniform_rand_01(t-step) * 0.01);
-    double v3 = (1 + uniform_rand_01(t-2*step) * 0.01);
-    double v4 = (1 + uniform_rand_01(t-3*step) * 0.01);
+    double v1 = (1 + uniform_rand_01(t) * 0.04);
+    double v2 = (1 + uniform_rand_01(t-step) * 0.04);
+    double v3 = (1 + uniform_rand_01(t-2*step) * 0.04);
+    double v4 = (1 + uniform_rand_01(t-3*step) * 0.04);
     return (v1+v2+v3+v4) * level;
   }
 

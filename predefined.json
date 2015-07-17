@@ -263,7 +263,41 @@
   "Skip": "10m",
   "DurationType": "Pixel Size",
   "Duration": "1s",
-  "Series": []
+  "Series": [
+    {
+      "Name": "wt237_7",
+      "NegPalette": 2,
+      "PosPalette": 3,
+      "ReferenceType": "Absolute",
+      "ReferenceValue": 0,
+      "NumberFormat": ".4r",
+      "Range": "Auto",
+      "Levels": 3,
+      "Height": 4
+    },
+    {
+      "Name": "wt100_10",
+      "NegPalette": 2,
+      "PosPalette": 3,
+      "ReferenceType": "Absolute",
+      "ReferenceValue": 0,
+      "NumberFormat": ".4r",
+      "Range": "Auto",
+      "Levels": 3,
+      "Height": 5
+    },
+    {
+      "Name": "wt300_4",
+      "NegPalette": 2,
+      "PosPalette": 3,
+      "ReferenceType": "Absolute",
+      "ReferenceValue": 0,
+      "NumberFormat": ".4r",
+      "Range": "Auto",
+      "Levels": 3,
+      "Height": 6
+    }
+  ]
 },
 {
   "Name": "Sine Waves",
