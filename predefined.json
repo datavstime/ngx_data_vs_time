@@ -14,7 +14,7 @@
         "NumberFormat": ".3r",
         "Range": "800",
         "Levels": 2,
-        "Height": 3
+        "Height": 2
       },
       {
         "Name": "ping500",
@@ -25,7 +25,7 @@
         "NumberFormat": ".3r",
         "Range": "800",
         "Levels": 2,
-        "Height": 3
+        "Height": 2
       },
       {
         "Name": "ping320",
@@ -36,7 +36,7 @@
         "NumberFormat": ".3r",
         "Range": "800",
         "Levels": 2,
-        "Height": 3
+        "Height": 2
       },
       {
         "Name": "ping4",
@@ -47,7 +47,7 @@
         "NumberFormat": ".3r",
         "Range": "800",
         "Levels": 2,
-        "Height": 3
+        "Height": 2
       },
       {
         "Name": "ping220",
@@ -58,7 +58,7 @@
         "NumberFormat": ".3r",
         "Range": "800",
         "Levels": 2,
-        "Height": 3
+        "Height": 2
       },
       {
         "Name": "ping180",
@@ -69,7 +69,7 @@
         "NumberFormat": ".3r",
         "Range": "800",
         "Levels": 2,
-        "Height": 3
+        "Height": 2
       },
       {
         "Name": "ping130",
@@ -80,7 +80,7 @@
         "NumberFormat": ".3r",
         "Range": "800",
         "Levels": 2,
-        "Height": 3
+        "Height": 2
       },
       {
         "Name": "ping27",
@@ -91,7 +91,95 @@
         "NumberFormat": ".3r",
         "Range": "800",
         "Levels": 2,
-        "Height": 3
+        "Height": 2
+      },
+      {
+        "Name": "ping120",
+        "NegPalette": 2,
+        "PosPalette": 2,
+        "ReferenceType": "Absolute",
+        "ReferenceValue": 0,
+        "NumberFormat": ".3r",
+        "Range": "800",
+        "Levels": 2,
+        "Height": 2
+      },
+      {
+        "Name": "ping500",
+        "NegPalette": 2,
+        "PosPalette": 2,
+        "ReferenceType": "Absolute",
+        "ReferenceValue": 0,
+        "NumberFormat": ".3r",
+        "Range": "800",
+        "Levels": 2,
+        "Height": 2
+      },
+      {
+        "Name": "ping320",
+        "NegPalette": 2,
+        "PosPalette": 2,
+        "ReferenceType": "Absolute",
+        "ReferenceValue": 0,
+        "NumberFormat": ".3r",
+        "Range": "800",
+        "Levels": 2,
+        "Height": 2
+      },
+      {
+        "Name": "ping4",
+        "NegPalette": 2,
+        "PosPalette": 2,
+        "ReferenceType": "Absolute",
+        "ReferenceValue": 0,
+        "NumberFormat": ".3r",
+        "Range": "800",
+        "Levels": 2,
+        "Height": 2
+      },
+      {
+        "Name": "ping220",
+        "NegPalette": 2,
+        "PosPalette": 2,
+        "ReferenceType": "Absolute",
+        "ReferenceValue": 0,
+        "NumberFormat": ".3r",
+        "Range": "800",
+        "Levels": 2,
+        "Height": 2
+      },
+      {
+        "Name": "ping180",
+        "NegPalette": 2,
+        "PosPalette": 2,
+        "ReferenceType": "Absolute",
+        "ReferenceValue": 0,
+        "NumberFormat": ".3r",
+        "Range": "800",
+        "Levels": 2,
+        "Height": 2
+      },
+      {
+        "Name": "ping130",
+        "NegPalette": 2,
+        "PosPalette": 2,
+        "ReferenceType": "Absolute",
+        "ReferenceValue": 0,
+        "NumberFormat": ".3r",
+        "Range": "800",
+        "Levels": 2,
+        "Height": 2
+      },
+      {
+        "Name": "ping27",
+        "NegPalette": 2,
+        "PosPalette": 2,
+        "ReferenceType": "Absolute",
+        "ReferenceValue": 0,
+        "NumberFormat": ".3r",
+        "Range": "800",
+        "Levels": 2,
+        "Height": 2
       }
     ]
   },
@@ -265,37 +353,81 @@
   "Duration": "1s",
   "Series": [
     {
-      "Name": "wt237_7",
+      "Name": "wt302_3",
       "NegPalette": 2,
-      "PosPalette": 3,
+      "PosPalette": 4,
       "ReferenceType": "Absolute",
       "ReferenceValue": 0,
       "NumberFormat": ".4r",
-      "Range": "Auto",
-      "Levels": 3,
-      "Height": 4
+      "Range": "350",
+      "Levels": 4,
+      "Height": 1
+    },
+    {
+      "Name": "wt310_5",
+      "NegPalette": 2,
+      "PosPalette": 4,
+      "ReferenceType": "Absolute",
+      "ReferenceValue": 0,
+      "NumberFormat": ".4r",
+      "Range": "350",
+      "Levels": 4,
+      "Height": 1
+    },
+    {
+      "Name": "wt290_11",
+      "NegPalette": 2,
+      "PosPalette": 4,
+      "ReferenceType": "Absolute",
+      "ReferenceValue": 0,
+      "NumberFormat": ".4r",
+      "Range": "350",
+      "Levels": 4,
+      "Height": 1
+    },
+    {
+      "Name": "wt310_4",
+      "NegPalette": 2,
+      "PosPalette": 0,
+      "ReferenceType": "Absolute",
+      "ReferenceValue": 0,
+      "NumberFormat": ".4r",
+      "Range": "350",
+      "Levels": 4,
+      "Height": 1
+    },
+    {
+      "Name": "wt237_7",
+      "NegPalette": 2,
+      "PosPalette": 4,
+      "ReferenceType": "Absolute",
+      "ReferenceValue": 0,
+      "NumberFormat": ".4r",
+      "Range": "350",
+      "Levels": 4,
+      "Height": 1
     },
     {
       "Name": "wt100_10",
       "NegPalette": 2,
-      "PosPalette": 3,
+      "PosPalette": 4,
       "ReferenceType": "Absolute",
       "ReferenceValue": 0,
       "NumberFormat": ".4r",
-      "Range": "Auto",
-      "Levels": 3,
-      "Height": 5
+      "Range": "350",
+      "Levels": 4,
+      "Height": 1
     },
     {
-      "Name": "wt300_4",
+      "Name": "wt276_6",
       "NegPalette": 2,
-      "PosPalette": 3,
+      "PosPalette": 4,
       "ReferenceType": "Absolute",
       "ReferenceValue": 0,
       "NumberFormat": ".4r",
-      "Range": "Auto",
-      "Levels": 3,
-      "Height": 6
+      "Range": "350",
+      "Levels": 4,
+      "Height": 1
     }
   ]
 },
@@ -304,6 +436,381 @@
   "Skip": "10m",
   "DurationType": "Pixel Size",
   "Duration": "1s",
-  "Series": []
+  "Series": [
+    {
+      "Name": "SIN207",
+      "NegPalette": 2,
+      "PosPalette": 3,
+      "ReferenceType": "Absolute",
+      "ReferenceValue": 0,
+      "NumberFormat": ".4r",
+      "Range": "Auto",
+      "Levels": 3,
+      "Height": 1
+    },
+    {
+      "Name": "SIN198",
+      "NegPalette": 2,
+      "PosPalette": 3,
+      "ReferenceType": "Absolute",
+      "ReferenceValue": 0,
+      "NumberFormat": ".4r",
+      "Range": "Auto",
+      "Levels": 3,
+      "Height": 1
+    },
+    {
+      "Name": "SIN113",
+      "NegPalette": 2,
+      "PosPalette": 3,
+      "ReferenceType": "Absolute",
+      "ReferenceValue": 0,
+      "NumberFormat": ".4r",
+      "Range": "Auto",
+      "Levels": 3,
+      "Height": 1
+    },
+    {
+      "Name": "SIN95",
+      "NegPalette": 2,
+      "PosPalette": 3,
+      "ReferenceType": "Absolute",
+      "ReferenceValue": 0,
+      "NumberFormat": ".4r",
+      "Range": "Auto",
+      "Levels": 3,
+      "Height": 1
+    },
+    {
+      "Name": "SIN36",
+      "NegPalette": 2,
+      "PosPalette": 3,
+      "ReferenceType": "Absolute",
+      "ReferenceValue": 0,
+      "NumberFormat": ".4r",
+      "Range": "Auto",
+      "Levels": 3,
+      "Height": 1
+    },
+    {
+      "Name": "SIN29",
+      "NegPalette": 2,
+      "PosPalette": 3,
+      "ReferenceType": "Absolute",
+      "ReferenceValue": 0,
+      "NumberFormat": ".4r",
+      "Range": "Auto",
+      "Levels": 3,
+      "Height": 1
+    },
+    {
+      "Name": "SIN23",
+      "NegPalette": 2,
+      "PosPalette": 3,
+      "ReferenceType": "Absolute",
+      "ReferenceValue": 0,
+      "NumberFormat": ".4r",
+      "Range": "Auto",
+      "Levels": 3,
+      "Height": 1
+    },
+    {
+      "Name": "SIN17",
+      "NegPalette": 2,
+      "PosPalette": 3,
+      "ReferenceType": "Absolute",
+      "ReferenceValue": 0,
+      "NumberFormat": ".4r",
+      "Range": "Auto",
+      "Levels": 3,
+      "Height": 1
+    },
+    {
+      "Name": "SIN9",
+      "NegPalette": 2,
+      "PosPalette": 3,
+      "ReferenceType": "Absolute",
+      "ReferenceValue": 0,
+      "NumberFormat": ".4r",
+      "Range": "Auto",
+      "Levels": 3,
+      "Height": 1
+    },
+    {
+      "Name": "SIN7",
+      "NegPalette": 2,
+      "PosPalette": 3,
+      "ReferenceType": "Absolute",
+      "ReferenceValue": 0,
+      "NumberFormat": ".4r",
+      "Range": "Auto",
+      "Levels": 3,
+      "Height": 1
+    },
+    {
+      "Name": "SIN5",
+      "NegPalette": 2,
+      "PosPalette": 3,
+      "ReferenceType": "Absolute",
+      "ReferenceValue": 0,
+      "NumberFormat": ".4r",
+      "Range": "Auto",
+      "Levels": 3,
+      "Height": 1
+    },
+    {
+      "Name": "SIN4",
+      "NegPalette": 2,
+      "PosPalette": 3,
+      "ReferenceType": "Absolute",
+      "ReferenceValue": 0,
+      "NumberFormat": ".4r",
+      "Range": "Auto",
+      "Levels": 3,
+      "Height": 1
+    },
+    {
+      "Name": "SIN5",
+      "NegPalette": 2,
+      "PosPalette": 3,
+      "ReferenceType": "Absolute",
+      "ReferenceValue": 0,
+      "NumberFormat": ".4r",
+      "Range": "Auto",
+      "Levels": 3,
+      "Height": 1
+    },
+    {
+      "Name": "SIN7",
+      "NegPalette": 2,
+      "PosPalette": 3,
+      "ReferenceType": "Absolute",
+      "ReferenceValue": 0,
+      "NumberFormat": ".4r",
+      "Range": "Auto",
+      "Levels": 3,
+      "Height": 1
+    },
+    {
+      "Name": "SIN9",
+      "NegPalette": 2,
+      "PosPalette": 3,
+      "ReferenceType": "Absolute",
+      "ReferenceValue": 0,
+      "NumberFormat": ".4r",
+      "Range": "Auto",
+      "Levels": 3,
+      "Height": 1
+    },
+    {
+      "Name": "SIN17",
+      "NegPalette": 2,
+      "PosPalette": 3,
+      "ReferenceType": "Absolute",
+      "ReferenceValue": 0,
+      "NumberFormat": ".4r",
+      "Range": "Auto",
+      "Levels": 3,
+      "Height": 1
+    },
+    {
+      "Name": "SIN23",
+      "NegPalette": 2,
+      "PosPalette": 3,
+      "ReferenceType": "Absolute",
+      "ReferenceValue": 0,
+      "NumberFormat": ".4r",
+      "Range": "Auto",
+      "Levels": 3,
+      "Height": 1
+    },
+    {
+      "Name": "SIN29",
+      "NegPalette": 2,
+      "PosPalette": 3,
+      "ReferenceType": "Absolute",
+      "ReferenceValue": 0,
+      "NumberFormat": ".4r",
+      "Range": "Auto",
+      "Levels": 3,
+      "Height": 1
+    },
+    {
+      "Name": "SIN36",
+      "NegPalette": 2,
+      "PosPalette": 3,
+      "ReferenceType": "Absolute",
+      "ReferenceValue": 0,
+      "NumberFormat": ".4r",
+      "Range": "Auto",
+      "Levels": 3,
+      "Height": 1
+    },
+    {
+      "Name": "SIN95",
+      "NegPalette": 2,
+      "PosPalette": 3,
+      "ReferenceType": "Absolute",
+      "ReferenceValue": 0,
+      "NumberFormat": ".4r",
+      "Range": "Auto",
+      "Levels": 3,
+      "Height": 1
+    },
+    {
+      "Name": "SIN113",
+      "NegPalette": 2,
+      "PosPalette": 3,
+      "ReferenceType": "Absolute",
+      "ReferenceValue": 0,
+      "NumberFormat": ".4r",
+      "Range": "Auto",
+      "Levels": 3,
+      "Height": 1
+    },
+    {
+      "Name": "SIN198",
+      "NegPalette": 2,
+      "PosPalette": 3,
+      "ReferenceType": "Absolute",
+      "ReferenceValue": 0,
+      "NumberFormat": ".4r",
+      "Range": "Auto",
+      "Levels": 3,
+      "Height": 1
+    },
+    {
+      "Name": "SIN207",
+      "NegPalette": 2,
+      "PosPalette": 3,
+      "ReferenceType": "Absolute",
+      "ReferenceValue": 0,
+      "NumberFormat": ".4r",
+      "Range": "Auto",
+      "Levels": 3,
+      "Height": 1
+    },
+    {
+      "Name": "SIN198",
+      "NegPalette": 2,
+      "PosPalette": 3,
+      "ReferenceType": "Absolute",
+      "ReferenceValue": 0,
+      "NumberFormat": ".4r",
+      "Range": "Auto",
+      "Levels": 3,
+      "Height": 1
+    },
+    {
+      "Name": "SIN113",
+      "NegPalette": 2,
+      "PosPalette": 3,
+      "ReferenceType": "Absolute",
+      "ReferenceValue": 0,
+      "NumberFormat": ".4r",
+      "Range": "Auto",
+      "Levels": 3,
+      "Height": 1
+    },
+    {
+      "Name": "SIN95",
+      "NegPalette": 2,
+      "PosPalette": 3,
+      "ReferenceType": "Absolute",
+      "ReferenceValue": 0,
+      "NumberFormat": ".4r",
+      "Range": "Auto",
+      "Levels": 3,
+      "Height": 1
+    },
+    {
+      "Name": "SIN36",
+      "NegPalette": 2,
+      "PosPalette": 3,
+      "ReferenceType": "Absolute",
+      "ReferenceValue": 0,
+      "NumberFormat": ".4r",
+      "Range": "Auto",
+      "Levels": 3,
+      "Height": 1
+    },
+    {
+      "Name": "SIN29",
+      "NegPalette": 2,
+      "PosPalette": 3,
+      "ReferenceType": "Absolute",
+      "ReferenceValue": 0,
+      "NumberFormat": ".4r",
+      "Range": "Auto",
+      "Levels": 3,
+      "Height": 1
+    },
+    {
+      "Name": "SIN23",
+      "NegPalette": 2,
+      "PosPalette": 3,
+      "ReferenceType": "Absolute",
+      "ReferenceValue": 0,
+      "NumberFormat": ".4r",
+      "Range": "Auto",
+      "Levels": 3,
+      "Height": 1
+    },
+    {
+      "Name": "SIN17",
+      "NegPalette": 2,
+      "PosPalette": 3,
+      "ReferenceType": "Absolute",
+      "ReferenceValue": 0,
+      "NumberFormat": ".4r",
+      "Range": "Auto",
+      "Levels": 3,
+      "Height": 1
+    },
+    {
+      "Name": "SIN9",
+      "NegPalette": 2,
+      "PosPalette": 3,
+      "ReferenceType": "Absolute",
+      "ReferenceValue": 0,
+      "NumberFormat": ".4r",
+      "Range": "Auto",
+      "Levels": 3,
+      "Height": 1
+    },
+    {
+      "Name": "SIN7",
+      "NegPalette": 2,
+      "PosPalette": 3,
+      "ReferenceType": "Absolute",
+      "ReferenceValue": 0,
+      "NumberFormat": ".4r",
+      "Range": "Auto",
+      "Levels": 3,
+      "Height": 1
+    },
+    {
+      "Name": "SIN5",
+      "NegPalette": 2,
+      "PosPalette": 3,
+      "ReferenceType": "Absolute",
+      "ReferenceValue": 0,
+      "NumberFormat": ".4r",
+      "Range": "Auto",
+      "Levels": 3,
+      "Height": 1
+    },
+    {
+      "Name": "SIN4",
+      "NegPalette": 2,
+      "PosPalette": 3,
+      "ReferenceType": "Absolute",
+      "ReferenceValue": 0,
+      "NumberFormat": ".4r",
+      "Range": "Auto",
+      "Levels": 3,
+      "Height": 1
+    }
+  ]
 }
 ]
