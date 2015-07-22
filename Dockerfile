@@ -1,4 +1,22 @@
-FROM mhowlett/nginx_build_base
+FROM debian:jessie
+
+RUN apt-get -qq update \
+    && apt-get -qqy install \
+    autoconf \
+    automake \
+    build-essential \
+    curl \
+    g++ \
+    git \
+    libc6-dev-i386 \
+    libcurl4-openssl-dev \
+    libpcre3-dev \
+    libtool \
+    libunwind8 \
+    make \
+    uuid-dev \
+    unzip \
+    zlib1g-dev
 
 RUN \
      mkdir /var/www \

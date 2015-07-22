@@ -12,7 +12,7 @@
 typedef struct functionObject_t
 {
   void *data;
-  double (*fn)(struct functionObject_t* d, int64_t t, int step);
+  double (*fn)(struct functionObject_t* d, int64_t t, int64_t step);
 } functionObject_t;
 
 
@@ -96,7 +96,7 @@ FORCE_INLINE double uniform_rand_01(int64_t t)
 // --- END Murmur3
 
 
-static double pingValueCreator(functionObject_t* fo, int64_t t, int step)
+static double pingValueCreator(functionObject_t* fo, int64_t t, int64_t step)
 {
   double lvl = *((double *)(fo->data));
   double rnd = uniform_rand_01(t/15000 + (int)lvl);
@@ -109,20 +109,20 @@ static double pingValueCreator(functionObject_t* fo, int64_t t, int step)
   return 5000;
 }
 
-static double sinValueCreator(functionObject_t* fo, int64_t t, int step)
+static double sinValueCreator(functionObject_t* fo, int64_t t, int64_t step)
 {
   double period_seconds = *((double *)(fo->data));
   return sin((double)t/1000.0*M_2_PI/period_seconds);
 }
 
-static double rsValueCreator(functionObject_t* fo, int64_t t, int step)
+static double rsValueCreator(functionObject_t* fo, int64_t t, int64_t step)
 {
   double period_seconds = *((double *)(fo->data));
   double rnd = uniform_rand_01(t + (int)period_seconds);
   return sin((double)t/1000.0*M_2_PI/period_seconds) + rnd * 0.1 - 0.05;
 }
 
-static double mixValueCreator(functionObject_t* fo, int64_t t, int step)
+static double mixValueCreator(functionObject_t* fo, int64_t t, int64_t step)
 {
   return
     10.0 +
@@ -132,7 +132,7 @@ static double mixValueCreator(functionObject_t* fo, int64_t t, int step)
     sin((double)t/1000.0*M_2_PI/9)*0.05;
 }
 
-static double wtValueCreator(functionObject_t* fo, int64_t t, int step)
+static double wtValueCreator(functionObject_t* fo, int64_t t, int64_t step)
 {
   uint32_t level = ((uint32_t *)(fo->data))[0];
   uint32_t period_10m = ((uint32_t *)(fo->data))[1] * 60 * 10 * 1000;
@@ -172,7 +172,7 @@ static ngx_str_t values_handler(ngx_http_request_t *r)
   char* series = NULL;
   int64_t start = -1;
   int64_t stop = -1;
-  int step = -1;
+  int64_t step = -1;
 
   result_body.data = NULL;
   result_body.len = 0;
@@ -201,7 +201,7 @@ static ngx_str_t values_handler(ngx_http_request_t *r)
      }
      else if (strncmp(vname, "step", sizeof("step") - 1) == 0)
      {
-       step = strtol(vvalue, (char **)NULL, 10);
+       step = strtoull(vvalue, (char **)NULL, 10);
      }
      else if (strncmp(vname, "series", sizeof("series") - 1) == 0)
      {
@@ -218,7 +218,7 @@ static ngx_str_t values_handler(ngx_http_request_t *r)
     return result_body;
   }
 
-  int n = (int)(stop - start) / step;
+  int n = (int)((stop - start) / step);
   if (n < 1 || n > MAX_N_VALUES)
   {
     return result_body;
