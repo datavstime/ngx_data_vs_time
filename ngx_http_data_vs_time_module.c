@@ -7,12 +7,35 @@
 #include <ngx_core.h>
 #include <ngx_http.h>
 
+//typedef ngx_keyvalue_t[] dvt_ts_identity_t
+
+//typedef struct dvt_key_value_pair_s {
+//  ngx_string key;
+//  ngx_value key;
+//} dvt_ts_identity_t;
+
+/*
+ping_time_ms{level="320"}
+sin{period="1",period="4",scale="medium"}
+random_wave{period="4",scale="medium"}
+mixed_wave{scale="long"}
+
+timeseries {}
+{
+  ping_ms: {
+    level: {
+      4: 1
+    }
+  }
+}
+*/
+
 #define MAX_N_VALUES 10000
 
-typedef struct functionObject_t
+typedef struct functionObject_s
 {
   void *data;
-  double (*fn)(struct functionObject_t* d, int64_t t, int64_t step);
+  double (*fn)(struct functionObject_s* d, int64_t t, int64_t step);
 } functionObject_t;
 
 
@@ -21,7 +44,7 @@ typedef struct functionObject_t
 
 #define FORCE_INLINE __attribute__((always_inline))
 
-FORCE_INLINE uint32_t fmix ( uint32_t h )
+uint32_t fmix ( uint32_t h )
 {
   h ^= h >> 16;
   h *= 0x85ebca6b;
@@ -32,7 +55,7 @@ FORCE_INLINE uint32_t fmix ( uint32_t h )
   return h;
 }
 
-FORCE_INLINE uint32_t getblock ( const uint32_t * p, int i )
+uint32_t getblock ( const uint32_t * p, int i )
 {
   return p[i];
 }
@@ -88,7 +111,7 @@ uint32_t MurmurHash3_x86_32 ( const void * key, int len, uint32_t seed )
   return h1;
 }
 
-FORCE_INLINE double uniform_rand_01(int64_t t)
+double uniform_rand_01(int64_t t)
 {
   return ((double)MurmurHash3_x86_32(&t,sizeof(int64_t),0) / (double)UINT_MAX);
 }
@@ -109,11 +132,13 @@ static double pingValueCreator(functionObject_t* fo, int64_t t, int64_t step)
   return 5000;
 }
 
+//sin{period="2", scale="small"}
 static double sinValueCreator(functionObject_t* fo, int64_t t, int64_t step)
 {
   double period_seconds = *((double *)(fo->data));
   return sin((double)t/1000.0*M_2_PI/period_seconds);
 }
+
 
 static double rsValueCreator(functionObject_t* fo, int64_t t, int64_t step)
 {
@@ -174,6 +199,17 @@ static ngx_str_t values_handler(ngx_http_request_t *r)
   int64_t stop = -1;
   int64_t step = -1;
 
+  ngx_keyval_t identity = {
+    ngx_string("test"),
+    ngx_string("hello")
+  }
+
+  // identity.key = ngx_string("test");
+  // identity.value = ngx_string("hello");
+
+  printf("key: %s", identity.key.data);
+  printf("val: %s", identity.value.data);
+
   result_body.data = NULL;
   result_body.len = 0;
 
@@ -181,7 +217,7 @@ static ngx_str_t values_handler(ngx_http_request_t *r)
   if (!args) {
     return result_body;
   }
-  strncpy(args, r->args.data, r->args.len);
+  strncpy(args, (char *)r->args.data, r->args.len);
   args[r->args.len] = '\0';
 
   while (args != NULL)
@@ -276,24 +312,24 @@ static ngx_str_t values_handler(ngx_http_request_t *r)
   }
 
   result_body.data = ngx_palloc(r->pool, 10 * n + 20); // oodles of room.
-  strcpy(result_body.data, "[");
+  strcpy((char *)result_body.data, "[");
 
   int64_t current;
   for (current = start; current<stop; current += step)
   {
     if (current != start)
     {
-      strcat(result_body.data, ",");
+      strcat((char *)result_body.data, ",");
     }
 
     double d = fo.fn(&fo, current, step);
     snprintf(tmp_str, sizeof(tmp_str), "%.4f", d);
-    strcat(result_body.data, tmp_str);
+    strcat((char *)result_body.data, tmp_str);
   }
 
-  strcat(result_body.data, "]");
+  strcat((char *)result_body.data, "]");
 
-  result_body.len = strlen(result_body.data);
+  result_body.len = strlen((char *)result_body.data);
 
   return result_body;
 }
@@ -303,8 +339,8 @@ static ngx_str_t series_handler(ngx_http_request_t *r)
   ngx_str_t result_body;
 
   result_body.data = ngx_pcalloc(r->pool, 2048);
-  strcpy(result_body.data, "[\"SIN4\",\"SIN5\",\"SIN7\",\"SIN9\",\"SIN17\",\"SIN23\",\"SIN29\",\"SIN36\",\"SIN95\",\"SIN113\",\"SIN198\",\"SIN207\",\"ping4\",\"ping27\",\"ping120\",\"ping130\",\"ping180\",\"ping220\",\"ping320\",\"ping500\",\"rs5\",\"rs7\",\"rs10\",\"rs25\",\"rs42\",\"rs67\",\"rs133\",\"rs145\",\"rs168\",\"rs220\",\"rs265\",\"rs310\",\"rs340\",\"rs387\",\"rs412\",\"rs444\",\"rs502\",\"rs550\",\"rs599\",\"rs680\",\"rs850\",\"mix1\",\"wt300_4\",\"wt100_10\",\"wt237_7\",\"wt310_5\",\"wt290_11\",\"wt276_6\",\"wt302_3\",\"wt_288_8\"]");
-  result_body.len = strlen(result_body.data);
+  strcpy((char *)result_body.data, "[\"SIN4\",\"SIN5\",\"SIN7\",\"SIN9\",\"SIN17\",\"SIN23\",\"SIN29\",\"SIN36\",\"SIN95\",\"SIN113\",\"SIN198\",\"SIN207\",\"ping4\",\"ping27\",\"ping120\",\"ping130\",\"ping180\",\"ping220\",\"ping320\",\"ping500\",\"rs5\",\"rs7\",\"rs10\",\"rs25\",\"rs42\",\"rs67\",\"rs133\",\"rs145\",\"rs168\",\"rs220\",\"rs265\",\"rs310\",\"rs340\",\"rs387\",\"rs412\",\"rs444\",\"rs502\",\"rs550\",\"rs599\",\"rs680\",\"rs850\",\"mix1\",\"wt300_4\",\"wt100_10\",\"wt237_7\",\"wt310_5\",\"wt290_11\",\"wt276_6\",\"wt302_3\",\"wt_288_8\"]");
+  result_body.len = strlen((char *)result_body.data);
 
   return result_body;
 }
@@ -357,11 +393,11 @@ static ngx_int_t ngx_http_data_vs_time_handler(ngx_http_request_t *r)
   ngx_chain_t   out;
   ngx_str_t    result_body;
 
-  if (strncmp(r->uri.data, "/api/v1/series", sizeof("/api/v1/series")-1) == 0)
+  if (strncmp((char *)r->uri.data, "/api/v1/series", sizeof("/api/v1/series")-1) == 0)
   {
     result_body = series_handler(r);
   }
-  else if (strncmp(r->uri.data, "/api/v1/values", sizeof("/api/v1/values")-1) == 0)
+  else if (strncmp((char *)r->uri.data, "/api/v1/values", sizeof("/api/v1/values")-1) == 0)
   {
     result_body = values_handler(r);
   }

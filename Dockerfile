@@ -1,51 +1,32 @@
-FROM debian:jessie
+FROM mhowlett/nginx-build-base
 
-RUN apt-get -qq update \
-    && apt-get -qqy install \
-    autoconf \
-    automake \
-    build-essential \
-    curl \
-    g++ \
-    git \
-    libc6-dev-i386 \
-    libcurl4-openssl-dev \
-    libpcre3-dev \
-    libtool \
-    libunwind8 \
-    make \
-    uuid-dev \
-    unzip \
-    zlib1g-dev
+RUN mkdir /root/build
+COPY config /root/build/
+COPY ngx_http_data_vs_time_module.c /root/build/
 
 RUN \
-     mkdir /var/www \
-  && mkdir /root/script
+     NGINX_VERSION=1.4.7 \
+  && CFLAGS="-g -O0 -I/root/build" \
+  \
+  && cd /root/build \
+  && curl -sSL http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz | tar zxfv - -C . \
+  && cd nginx-$NGINX_VERSION \
+  && ./configure \
+    --prefix=/usr \
+    --conf-path=/etc/nginx/nginx.conf \
+    --add-module=../ \
+    --with-http_ssl_module \
+    --with-http_spdy_module \
+    --with-http_realip_module \
+    --with-http_stub_status_module \
+  && make \
+  && make install \
+  && rm -rf /etc/nginx/nginx.conf
 
+COPY nginx.conf /etc/nginx/
 COPY predefined.json /var/www/
 COPY version.json /var/www/
 
-COPY config /root/
-COPY script/compile /root/script/compile
-COPY ngx_http_data_vs_time_module.c /root/
-COPY nginx.docker.conf /root/nginx.conf
-
-RUN \
-     DIR=/root/ \
-  && BUILDDIR=$DIR/build \
-  && NGINX_DIR=nginx \
-  && NGINX_VERSION=1.4.7 \
-  \
-  && mkdir $BUILDDIR \
-  && mkdir $BUILDDIR/$NGINX_DIR \
-  && mkdir $DIR/vendor \
-  \
-  && cd $DIR/vendor \
-  && curl -sSL http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz | tar zxfv - -C . \
-  && cd /root/ \
-  && ./script/compile \
-  && ln -sf /root/nginx.conf /root/build/nginx/conf/nginx.conf
-
 EXPOSE 80
 
-CMD /root/build/nginx/sbin/nginx
+CMD nginx
