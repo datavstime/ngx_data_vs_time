@@ -205,11 +205,11 @@ static ngx_str_t values_handler(ngx_http_request_t *r)
 
   ngx_keyval_t* label;
 
-  label = (ngx_keyval_t *)ngx_array_push(&a);
+  label = (ngx_keyval_t *)ngx_array_push(a);
   ngx_str_set(identity->key, "test");
   ngx_str_set(identity->value, "world");
 
-  label = (ngx_keyval_t *)ngx_array_push(&a);
+  label = (ngx_keyval_t *)ngx_array_push(a);
   ngx_str_set(identity->key, "test2");
   ngx_str_set(identity->value, "world2");
 
