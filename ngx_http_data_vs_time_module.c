@@ -199,7 +199,9 @@ static ngx_str_t values_handler(ngx_http_request_t *r)
   int64_t stop = -1;
   int64_t step = -1;
 
-  ngx_keyval_t identity = {
+  ngx_keyval_t identity;
+
+  identity = {
     ngx_string("test"),
     ngx_string("hello")
   };
