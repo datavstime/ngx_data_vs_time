@@ -201,13 +201,8 @@ static ngx_str_t values_handler(ngx_http_request_t *r)
 
   ngx_keyval_t identity;
 
-  identity = {
-    ngx_string("test"),
-    ngx_string("hello")
-  };
-
-  // identity.key = ngx_string("test");
-  // identity.value = ngx_string("hello");
+  ngx_str_set(identity.key, "test");
+  ngx_str_set(identity.value, "world");
 
   fprintf(stderr, "key: %s\n", identity.key.data);
   fprintf(stderr, "val: %s\n", identity.value.data);
