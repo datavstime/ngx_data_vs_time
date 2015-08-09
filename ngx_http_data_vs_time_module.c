@@ -199,13 +199,22 @@ static ngx_str_t values_handler(ngx_http_request_t *r)
   int64_t stop = -1;
   int64_t step = -1;
 
-  ngx_keyval_t identity;
+  ngx_array_t* a;
 
-  ngx_str_set(&(identity.key), "test");
-  ngx_str_set(&(identity.value), "world");
+  a = ngx_array_create(r->pool, 4, sizeof(ngx_keyval_t));
 
-  fprintf(stderr, "key: %s\n", identity.key.data);
-  fprintf(stderr, "val: %s\n", identity.value.data);
+  ngx_keyval_t* label;
+
+  label = (ngx_keyval_t *)ngx_array_push(&a);
+  ngx_str_set(identity->key, "test");
+  ngx_str_set(identity->value, "world");
+
+  label = (ngx_keyval_t *)ngx_array_push(&a);
+  ngx_str_set(identity->key, "test2");
+  ngx_str_set(identity->value, "world2");
+
+  fprintf(stderr, "key: %s\n", ((ngx_keyval_t *)a->elts)[1].key.data);
+  fprintf(stderr, "val: %s\n", ((ngx_keyval_t *)a->elts)[1].value.data);
   fflush(stderr);
 
   result_body.data = NULL;
