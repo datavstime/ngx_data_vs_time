@@ -206,12 +206,12 @@ static ngx_str_t values_handler(ngx_http_request_t *r)
   ngx_keyval_t* label;
 
   label = (ngx_keyval_t *)ngx_array_push(a);
-  ngx_str_set(label->key, "test");
-  ngx_str_set(label->value, "world");
+  ngx_str_set(&label->key, "test");
+  ngx_str_set(&label->value, "world");
 
   label = (ngx_keyval_t *)ngx_array_push(a);
-  ngx_str_set(label->key, "test2");
-  ngx_str_set(label->value, "world2");
+  ngx_str_set(&label->key, "test2");
+  ngx_str_set(&label->value, "world2");
 
   fprintf(stderr, "key: %s\n", ((ngx_keyval_t *)a->elts)[1].key.data);
   fprintf(stderr, "val: %s\n", ((ngx_keyval_t *)a->elts)[1].value.data);
